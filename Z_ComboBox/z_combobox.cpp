@@ -1,7 +1,8 @@
 #include "z_combobox.h"
 #include "ui_z_combobox.h"
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
-
+#include <QListView>
+#include <QDebug>
 
 Z_ComboBox::Z_ComboBox(QWidget *parent) :
     QComboBox(parent),
@@ -9,6 +10,7 @@ Z_ComboBox::Z_ComboBox(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->m_comboBox->setView(new QListView());
     _Init_Data();
     _Refresh();
 
@@ -36,18 +38,214 @@ void Z_ComboBox::_SetGeomotry(QRect rect)
     this->setGeometry(rect);
 }
 
+void Z_ComboBox::_SetItemEnabled(int index, bool parameter)
+{
+    if(index < 0 || index >= ui->m_comboBox->count())
+    {
+        return;
+    }
+    if(parameter)
+    {
+        ui->m_comboBox->setItemData(index, -1,Qt::UserRole - 1);
+    }
+    else
+    {
+        ui->m_comboBox->setItemData(index, 0,Qt::UserRole - 1);
+    }
+}
+
+void Z_ComboBox::_SetBoxBorderRadius(int size)
+{
+    box_border_radius = size;
+    _Refresh();
+}
+
+int Z_ComboBox::_GetBoxBorderRadius()
+{
+    return box_border_radius;
+}
+
+void Z_ComboBox::_SetBoxFontColor(QColor color)
+{
+    box_font_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetBoxFontColor()
+{
+    return box_font_color;
+}
+
+void Z_ComboBox::_SetBoxBackgroundColor(QColor color)
+{
+    box_background_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetBoxBackgroundColor()
+{
+    return box_background_color;
+}
+
+void Z_ComboBox::_SetItemViewFontColor(QColor color)
+{
+    itemview_font_color = color;
+    _Refresh();
+}
+
+void Z_ComboBox::_SetBoxFontSize(int size)
+{
+     box_font_size = size;
+     _Refresh();
+}
+
+int Z_ComboBox::_GetBoxFontSIze()
+{
+    return box_font_size;
+}
+
+QColor Z_ComboBox::_GetItemViewFontColor()
+{
+    return itemview_font_color;
+}
+
+void Z_ComboBox::_SetItemViewBackgroundColor(QColor color)
+{
+    itemview_background_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemViewBackgroundColor()
+{
+    return itemview_background_color;
+}
+
+void Z_ComboBox::_SetItemViewFontSize(int size)
+{
+    itemview_font_size = size;
+    _Refresh();
+}
+
+int Z_ComboBox::_GetItemViewFontSize()
+{
+    return itemview_font_size;
+}
+
+void Z_ComboBox::_SetDropDownWidth(int width)
+{
+    dropdown_width = width;
+    _Refresh();
+}
+int Z_ComboBox::_GetDropDownWidth()
+{
+    return dropdown_width;
+}
+
+void Z_ComboBox::_SetDownArrowImage(QString image)
+{
+    _Refresh();
+}
+
+void Z_ComboBox::_SetItemFontColor(QColor color)
+{
+    item_font_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemFontColor()
+{
+    return item_font_color;
+}
+
+void Z_ComboBox::_SetItemBackgroundColor(QColor color)
+{
+    item_background_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemBackgroundColor()
+{
+    return item_background_color;
+}
+
+void Z_ComboBox::_SetItemSelectionColor(QColor color)
+{
+    item_selection_font_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemSelectionColor()
+{
+    return item_selection_font_color;
+}
+
+void Z_ComboBox::_SetItemHeight(int size)
+{
+    item_height = size;
+    _Refresh();
+}
+
+int Z_ComboBox::_GetItemHeight()
+{
+    return item_height;
+}
+
+void Z_ComboBox::_SetItemSelectionBackgroundColor(QColor color)
+{
+    item_selection_background_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemSelectionBackgroundColor()
+{
+    return item_selection_background_color;
+}
+
+void Z_ComboBox::_SetItemHoverFontColor(QColor color)
+{
+    item_hover_font_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemHoverFontColor()
+{
+    return item_hover_font_color;
+}
+
+void Z_ComboBox::_SetItemDisabledFontColor(QColor color)
+{
+    item_disabled_font_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemDisabledFontColor()
+{
+    return item_disabled_font_color;
+}
+
+void Z_ComboBox::_SetItemDisabledBackgroundColor(QColor color)
+{
+    item_disabled_background_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemDisabledBackgroundColor()
+{
+    return item_disabled_background_color;
+}
+
 void Z_ComboBox::_Clear()
 {
-    disconnect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    disconnect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
     ui->m_comboBox->clear();
-    connect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    connect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
 }
 
 void Z_ComboBox::_AddItem(const QString &text)
 {
-    disconnect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    disconnect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
     ui->m_comboBox->addItem(text);
-    connect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    connect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
 }
 
 int Z_ComboBox::_CurrentIndex()
@@ -76,9 +274,9 @@ void Z_ComboBox::_InsertItem(int index, const QString &text)
     {
         return;
     }
-    connect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    connect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
     ui->m_comboBox->insertItem(index, text);
-    connect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    connect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
 }
 
 void Z_ComboBox::_RemoveItem(int index)
@@ -87,9 +285,9 @@ void Z_ComboBox::_RemoveItem(int index)
     {
         return;
     }
-    disconnect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    disconnect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
     ui->m_comboBox->removeItem(index);
-    connect(ui->m_comboBox, SIGNAL(currentIndexChanged()), this, SLOT(by_currentIndexChanged()));
+    connect(ui->m_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(by_currentIndexChanged(int)));
 }
 
 void Z_ComboBox::_SetFocus()
@@ -124,41 +322,76 @@ QString Z_ComboBox::Pixel_To_QString(QString name, int size)
 
 void Z_ComboBox::_Init_Data()
 {
-    box_font_color = QColor(255,255,0);
-    box_background_color = QColor(0,255,255);
-    box_border_radius = 1;
-    item_selection_color = QColor(255,0,0);
-    item_selection_backround_color = QColor(0,0,0);
+    box_border_radius = 0;
+    box_font_color = QColor(255,255,255);
+    box_background_color = QColor(51,25,255);
+    box_font_size = 25;
+    itemview_font_color = QColor(255,255,255);
+    itemview_background_color = QColor(51,25,255);
+    itemview_font_size = 25;
+    dropdown_width = 30;
+    downarrow_image = QString("ui.png");
+    item_font_color = QColor(255,255,255);
+    item_background_color = QColor(82,85,219);
+    item_height = 30;
+    item_selection_font_color = QColor(255,92,56);
+    item_selection_background_color = QColor(82,85,255);
+    item_hover_font_color = QColor(255,92,56);
+    item_hover_background_color = QColor(82,85,255);
+    item_disabled_font_color = QColor(178,255,248);
+    item_disabled_background_color = QColor(248,248,248);
 }
 
 void Z_ComboBox::_Refresh()
 {
+    QString str_box_border_radius = Pixel_To_QString(QString("border"), box_border_radius);
     QString str_box_font_color = QColor_To_QString(QString("color"), box_font_color);
-    QString str_box_background_color = QColor_To_QString(QString("background-color"), box_background_color);
-    QString str_box_border_radius = Pixel_To_QString(QString("border-radius"), box_border_radius);
-    QString str_item_selection_color = QColor_To_QString(QString("selection-color"), item_selection_color);
-    QString str_item_background_color = QColor_To_QString(QString("selection-background-color"), item_selection_backround_color);
+    QString str_box_background_color = QColor_To_QString(QString("background"), box_background_color);
+    QString str_box_font_size = Pixel_To_QString(QString("font-size"), box_font_size);
 
+    QString str_itemview_font_color = QColor_To_QString(QString("color"), itemview_font_color);
+    QString str_itemview_background_color = QColor_To_QString(QString("background"), itemview_background_color);
+    QString str_itemview_font_size = Pixel_To_QString(QString("font-size"), itemview_font_size);
 
-    m_stylesheet = str_box_font_color + str_box_background_color + str_box_border_radius+
-            str_item_selection_color + str_item_background_color;
+    QString str_dropdown_width = Pixel_To_QString(QString("width"), dropdown_width);
 
+    QString str_downarrow_image = QString("image:url(:/%1)").arg(downarrow_image);
+
+    QString str_item_font_color = QColor_To_QString(QString("color"), item_font_color);
+    QString str_item_background_color = QColor_To_QString(QString("background"), item_background_color);
+    QString str_item_height = Pixel_To_QString(QString("height"), item_height);
+
+    QString str_item_selection_font_color = QColor_To_QString(QString("color"), item_selection_font_color);
+    QString str_item_selection_background_color = QColor_To_QString(QString("background"), item_selection_background_color);
+
+    QString str_item_hover_font_color = QColor_To_QString(QString("color"), item_hover_font_color);
+    QString str_item_hover_background_color = QColor_To_QString(QString("background"), item_hover_background_color);
+
+    QString str_item_disabled_font_color = QColor_To_QString(QString("color"), item_disabled_font_color);
+    QString str_item_disabled_background_color = QColor_To_QString(QString("background"), item_disabled_background_color);
+
+    QString m_stylesheet;
+    m_stylesheet = QString("QComboBox{%1%2%3%4}").arg(str_box_border_radius).arg(str_box_font_color).arg(str_box_background_color).arg(str_box_font_size);
+    m_stylesheet += QString("QComboBox QAbstractItemView{%1%2%3}").arg(str_itemview_font_color).arg(str_itemview_background_color).arg(str_itemview_font_size);
+    m_stylesheet += QString("QComboBox::drop-down{%1}").arg(str_dropdown_width);
+    m_stylesheet += QString("QComboBox::down-arrow{%1;}").arg(str_downarrow_image);
+    m_stylesheet += QString("QListView::item{%1%2%3}").arg(str_item_font_color).arg(str_item_background_color).arg(str_item_height);
+    m_stylesheet += QString("QListView::item:selected{%1%2}").arg(str_item_selection_font_color).arg(str_item_selection_background_color);
+    m_stylesheet += QString("QListView::item:hover{%1%2}").arg(str_item_hover_font_color).arg(str_item_hover_background_color);
+    m_stylesheet += QString("QComboBox QAbstractItemView::item::!enabled{%1%2}").arg(str_item_disabled_font_color).arg(str_item_disabled_background_color);
     ui->m_comboBox->setStyleSheet(m_stylesheet);
 }
 
 void Z_ComboBox::resizeEvent(QResizeEvent *e)
 {
+    QComboBox::resizeEvent(e);
     QRect rect = this->geometry();
     ui->m_comboBox->setGeometry(0,0,rect.width(),rect.height());
+    box_font_size = rect.height()>5?rect.height()-5:5;
+    item_height = rect.height();
+    itemview_font_size = rect.height()>5?rect.height()-5:5;
+    _Refresh();
 }
-
-
-
-
-
-
-
-
 
 
 

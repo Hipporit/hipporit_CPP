@@ -53,16 +53,83 @@ public:                             //Data
 public:                             //Style
     void _SetGeomotry(QRect rect);
 
+    void _SetItemEnabled(int index, bool parameter);
+
+    void _SetBoxBorderRadius(int size);
+    int _GetBoxBorderRadius();
+
+    void _SetBoxFontColor(QColor color);
+    QColor _GetBoxFontColor();
+
+    void _SetBoxBackgroundColor(QColor color);
+    QColor _GetBoxBackgroundColor();
+
+    void _SetBoxFontSize(int size);
+    int _GetBoxFontSIze();
+
+    void _SetItemViewFontColor(QColor color);
+    QColor _GetItemViewFontColor();
+
+    void _SetItemViewBackgroundColor(QColor color);
+    QColor _GetItemViewBackgroundColor();
+
+    void _SetItemViewFontSize(int size);
+    int _GetItemViewFontSize();
+
+    void _SetDropDownWidth(int width);
+    int _GetDropDownWidth();
+
+    void _SetDownArrowImage(QString image);
+
+    void _SetItemFontColor(QColor color);
+    QColor _GetItemFontColor();
+
+    void _SetItemBackgroundColor(QColor color);
+    QColor _GetItemBackgroundColor();
+
+    void _SetItemSelectionColor(QColor color);
+    QColor _GetItemSelectionColor();
+
+    void _SetItemHeight(int size);
+    int _GetItemHeight();
+
+    void _SetItemSelectionBackgroundColor(QColor color);
+    QColor _GetItemSelectionBackgroundColor();
+
+    void _SetItemHoverFontColor(QColor color);
+    QColor _GetItemHoverFontColor();
+
+    void _SetItemDisabledFontColor(QColor color);
+    QColor _GetItemDisabledFontColor();
+
+    void _SetItemDisabledBackgroundColor(QColor color);
+    QColor _GetItemDisabledBackgroundColor();
+
 private:                            //Style
-
-    QString m_stylesheet;
-
+    int box_border_radius;
     QColor box_font_color;
     QColor box_background_color;
-    int box_border_radius;
-    QColor item_selection_color;
-    QColor item_selection_backround_color;
+    int box_font_size;
 
+    QColor itemview_font_color;
+    QColor itemview_background_color;
+    int itemview_font_size;
+
+    int dropdown_width;
+    QString downarrow_image;
+
+    QColor item_font_color;
+    QColor item_background_color;
+    int item_height;
+
+    QColor item_selection_font_color;
+    QColor item_selection_background_color;
+
+    QColor item_hover_font_color;
+    QColor item_hover_background_color;
+
+    QColor item_disabled_font_color;
+    QColor item_disabled_background_color;
 
 protected:
     virtual void resizeEvent(QResizeEvent *e) override;
