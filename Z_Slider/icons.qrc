@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>z_slider.cpp</file>
+        <file>z_slider.h</file>
+    </qresource>
+</RCC>

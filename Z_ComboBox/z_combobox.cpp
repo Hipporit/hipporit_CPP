@@ -2,13 +2,15 @@
 #include "ui_z_combobox.h"
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include <QListView>
-#include <QDebug>
+#include <QStandardItemModel>
 
 Z_ComboBox::Z_ComboBox(QWidget *parent) :
     QComboBox(parent),
     ui(new Ui::Z_ComboBox)
 {
     ui->setupUi(this);
+
+    model = qobject_cast<QStandardItemModel*>(ui->m_comboBox->model());
 
     ui->m_comboBox->setView(new QListView());
     _Init_Data();
@@ -99,7 +101,7 @@ void Z_ComboBox::_SetBoxFontSize(int size)
      _Refresh();
 }
 
-int Z_ComboBox::_GetBoxFontSIze()
+int Z_ComboBox::_GetBoxFontSize()
 {
     return box_font_size;
 }
@@ -143,6 +145,7 @@ int Z_ComboBox::_GetDropDownWidth()
 
 void Z_ComboBox::_SetDownArrowImage(QString image)
 {
+    downarrow_image = image;
     _Refresh();
 }
 
@@ -210,6 +213,17 @@ void Z_ComboBox::_SetItemHoverFontColor(QColor color)
 QColor Z_ComboBox::_GetItemHoverFontColor()
 {
     return item_hover_font_color;
+}
+
+void Z_ComboBox::_SetItemHoverBackgroundColor(QColor color)
+{
+    item_hover_background_color = color;
+    _Refresh();
+}
+
+QColor Z_ComboBox::_GetItemHoverBackgroundColor()
+{
+    return item_hover_background_color;
 }
 
 void Z_ComboBox::_SetItemDisabledFontColor(QColor color)
@@ -338,8 +352,8 @@ void Z_ComboBox::_Init_Data()
     item_selection_background_color = QColor(82,85,255);
     item_hover_font_color = QColor(255,92,56);
     item_hover_background_color = QColor(82,85,255);
-    item_disabled_font_color = QColor(178,255,248);
-    item_disabled_background_color = QColor(248,248,248);
+    item_disabled_font_color = QColor(200,200,200);
+    item_disabled_background_color = QColor(5,10,255);
 }
 
 void Z_ComboBox::_Refresh()
